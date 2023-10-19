@@ -1,11 +1,9 @@
 close all
-% Reikšmėmiu intervalas iejimas
 x= 0.1:1/22:1;
-% Isejimas target
+
 yTartget = ((1 + 0.6*sin(2*pi*x/0.7)) + 0.3*sin(2*pi*x))/2;
 plot(x,yTartget, 'k')
 
-%pirmas sluoksnis
 w11_1 = rand(1); b1_1 = rand(1);
 w21_1 = rand(1); b2_1 = rand(1);
 w31_1 = rand(1); b3_1 = rand(1);
@@ -13,7 +11,6 @@ w41_1 = rand(1); b4_1 = rand(1);
 w51_1 = rand(1); b5_1 = rand(1);
 w61_1 = rand(1); b6_1 = rand(1);
 
-%isejimo sluoksnis
 w11_2 = rand(1); b1_2 = rand(1);
 w12_2 = rand(1);
 w13_2 = rand(1);
@@ -24,7 +21,7 @@ w16_2 = rand(1);
 eta = 0.15;
 for n=1:100000
     for i=1:20
-        %pirmas sluoksnis
+    
         v1_1 = w11_1*x(i)+b1_1;
         v2_1 = w21_1*x(i)+b2_1;
         v3_1 = w31_1*x(i)+b3_1;
@@ -39,13 +36,11 @@ for n=1:100000
         y5_1 = 1/(1+exp(-v5_1));
         y6_1 = 1/(1+exp(-v6_1));
 
-        %pasleptas sluosnkis
         v1_2 = w11_2*y1_1 + w12_2*y2_1 + w13_2*y3_1 + w14_2*y4_1 + w15_2*y5_1 + w16_2*y6_1 + b1_2;
         y1_out = v1_2;
-        % skaičiuojame klaida
+        
         delta_out=yTartget(i)-y1_out;
 
-        %paslėptajame sluoksnyje
         delta1_1=y1_1*(1-y1_1)*delta_out*w11_2;
         delta2_1=y2_1*(1-y2_1)*delta_out*w12_2;
         delta3_1=y3_1*(1-y3_1)*delta_out*w13_2;
@@ -53,8 +48,6 @@ for n=1:100000
         delta5_1=y5_1*(1-y5_1)*delta_out*w15_2;
         delta6_1=y6_1*(1-y6_1)*delta_out*w16_2;
 
-        %svorių atnaujinimas
-        %isėjimo sluoksnis
         w11_2 = w11_2+eta*delta_out*y1_1;
         w12_2 = w12_2+eta*delta_out*y2_1;
         w13_2 = w13_2+eta*delta_out*y3_1;
@@ -62,9 +55,7 @@ for n=1:100000
         w15_2 = w15_2+eta*delta_out*y5_1;
         w16_2 = w16_2+eta*delta_out*y6_1;
         b1_2 = b1_2+eta*delta_out;
-
-
-        %Paslėptasis sluoksnis
+        
         w11_1 = w11_1+eta*delta1_1*x(i);
         w21_1 = w21_1+eta*delta2_1*x(i);
         w31_1 = w31_1+eta*delta3_1*x(i);
